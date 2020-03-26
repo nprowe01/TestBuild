@@ -26,6 +26,10 @@ class SQLDatabase {
                 let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
                 print("error creating ClientDetails table: \(errmsg)")
             }
+            if sqlite3_exec(clientDetailsDB, "DROP TABLE IF EXISTS clientInput", nil, nil, nil) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
+                print("error dropping ClientInput table: \(errmsg)")
+            }
             if sqlite3_exec(clientDetailsDB, "CREATE TABLE IF NOT EXISTS clientInput (inputID INTEGER PRIMARY KEY AUTOINCREMENT, DietaryRestrictions INTEGER, Cost INTEGER, Rules INTEGER, MedicalCon INTEGER, Support INTEGER, Time INTEGER)", nil, nil, nil) != SQLITE_OK {
                 let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
                 print("error creating ClientInput table: \(errmsg)")
