@@ -30,9 +30,25 @@ class SQLDatabase {
                 let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
                 print("error dropping ClientInput table: \(errmsg)")
             }
-            if sqlite3_exec(clientDetailsDB, "CREATE TABLE IF NOT EXISTS clientInput (inputID INTEGER PRIMARY KEY AUTOINCREMENT, DietaryRestrictions INTEGER, Cost INTEGER, Rules INTEGER, MedicalCon INTEGER, Support INTEGER, Time INTEGER)", nil, nil, nil) != SQLITE_OK {
+            if sqlite3_exec(clientDetailsDB, "CREATE TABLE IF NOT EXISTS clientInput (inputID INTEGER PRIMARY KEY AUTOINCREMENT, DietaryRestrictions INTEGER, Cost INTEGER, Rules INTEGER, MedicalCon INTEGER, Support INTEGER, TimeToPrepare INTEGER)", nil, nil, nil) != SQLITE_OK {
                 let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
                 print("error creating ClientInput table: \(errmsg)")
+            }
+            if sqlite3_exec(clientDetailsDB, "DROP TABLE IF EXISTS DietData", nil, nil, nil) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
+                print("error dropping DietData table: \(errmsg)")
+            }
+            if sqlite3_exec(clientDetailsDB, "CREATE TABLE IF NOT EXISTS DietData (dietID INTEGER PRIMARY KEY, dietTitle text, dietText text, DietaryRestrictions INTEGER, Cost INTEGER, Rules INTEGER, MedicalCon INTEGER, Support INTEGER, TimeToPrepare INTEGER)", nil, nil, nil) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
+                print("error creating DietData table: \(errmsg)")
+            }
+            if sqlite3_exec(clientDetailsDB, "insert into DietData (dietID, dietTitle, dietText, DietaryRestrictions, Cost, Rules, MedicalCon, Support, TimeToPrepare) values (1, 'First Diet', 'Eat less, exercise more', 1, 1, 1, 1, 1, 1)", nil, nil, nil) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
+                print("error populating row 1 in DietData table: \(errmsg)")
+            }
+            if sqlite3_exec(clientDetailsDB, "insert into DietData (dietID, dietTitle, dietText, DietaryRestrictions, Cost, Rules, MedicalCon, Support, TimeToPrepare) values (2, 'Second Diet', 'Eat nothing, exercise more', 2, 2, 2, 2, 2, 2)", nil, nil, nil) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
+                print("error populating row 2 in DietData table: \(errmsg)")
             }
         }
     }

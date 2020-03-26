@@ -13,24 +13,50 @@ class ResultsViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var resultsTable: UITableView!
     
-    var clientInputList = [ClientInput]()
+    var clientResultsList = [ClientResults]()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return clientInputList.count
+        return clientResultsList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let resultsCell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "resultsCell")
-        let results: ClientInput
-        results = clientInputList[indexPath.row]
-        resultsCell.textLabel?.text = String(results.dietaryRestrictions)
+        let results: ClientResults
+        results = clientResultsList[indexPath.row]
+        resultsCell.textLabel?.text = "Input " + String(results.inputId)+" diet " + String(results.dietId) + " confidence " + String(results.confidence)
         return resultsCell
     }
     
     func resultsReadValues(){
-        clientInputList.removeAll()
+        clientResultsList.removeAll()
         
-        let clientInputQueryString = "SELECT dietaryRestrictions, cost, rules, medicalCon, support, time FROM clientInput"
+        let clientInputQueryString =
+            "select s1.InputId, s1.DietId, s1.Confidence " +
+        "from ( " +
+          "select " +
+              "i1.InputId, " +
+              "d1.DietId, " +
+              "4 - abs (i1.DietaryRestrictions - d1.DietaryRestrictions) + " +
+                "4 - abs (i1.Cost - d1.Cost) + " +
+                "4 - abs (i1.Rules - d1.Rules) + " +
+                "4 - abs (i1.MedicalCon - d1.MedicalCon) + " +
+                "4 - abs (i1.Support - d1.Support) + " +
+                "4 - abs (i1.TimeToPrepare - d1.TimeToPrepare) as Confidence " +
+              "from ClientInput i1, DietData d1) s1 " +
+              "inner join ( " +
+          "select " +
+              "i2.InputId, " +
+              "max(4 - abs (i2.DietaryRestrictions - d2.DietaryRestrictions) + " +
+                "4 - abs (i2.Cost - d2.Cost) + " +
+                "4 - abs (i2.Rules - d2.Rules) + " +
+                "4 - abs (i2.MedicalCon - d2.MedicalCon) + " +
+                "4 - abs (i2.Support - d2.Support) + " +
+                "4 - abs (i2.TimeToPrepare - d2.TimeToPrepare)) as Confidence " +
+              "from ClientInput i2, DietData d2 " +
+              "group by i2.InputId) s2 " +
+              "on s1.InputId = s2.InputId " +
+              "and s1.Confidence = s2.Confidence " +
+          "order by s1.InputId desc"
         
         var stmt:OpaquePointer?
         let clientInputDB = SQLDatabase.shared.getDB()
@@ -40,14 +66,11 @@ class ResultsViewController: UIViewController, UITableViewDataSource, UITableVie
             return
         }
         while(sqlite3_step(stmt) == SQLITE_ROW){
-            let _dietaryRestrictions = sqlite3_column_int(stmt, 0)
-            let _cost = sqlite3_column_int(stmt, 1)
-            let _rules = sqlite3_column_int(stmt, 2)
-            let _medicalCon = sqlite3_column_int(stmt, 3)
-            let _support = sqlite3_column_int(stmt, 4)
-            let _time = sqlite3_column_int(stmt, 5)
-            let tmp:ClientInput = ClientInput(dietaryRestrictions: _dietaryRestrictions, cost: _cost, rules: _rules, medicalCon: _medicalCon, support: _support, time: _time)
-            clientInputList.append(tmp)
+            let _inputId = sqlite3_column_int(stmt, 0)
+            let _dietId = sqlite3_column_int(stmt, 1)
+            let _confidence = sqlite3_column_int(stmt, 2)
+            let tmp:ClientResults = ClientResults(inputId: _inputId, dietId: _dietId, confidence: _confidence)
+            clientResultsList.append(tmp)
         }
         
         self.resultsTable.reloadData()

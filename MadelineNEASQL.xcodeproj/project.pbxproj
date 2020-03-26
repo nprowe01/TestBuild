@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A280950242D48C80073F0D0 /* ClientResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A28094F242D48C80073F0D0 /* ClientResults.swift */; };
 		C128C60D23FED0B4008509EC /* ClientDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = C128C60C23FED0B4008509EC /* ClientDetails.swift */; };
 		C12ED1A723F41C1B003076C5 /* loginbg.mov in Resources */ = {isa = PBXBuildFile; fileRef = C12ED1A623F41C1B003076C5 /* loginbg.mov */; };
 		C14C3B8323E830940079D0FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14C3B8223E830940079D0FE /* AppDelegate.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A28094F242D48C80073F0D0 /* ClientResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientResults.swift; sourceTree = "<group>"; };
 		C128C60C23FED0B4008509EC /* ClientDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientDetails.swift; sourceTree = "<group>"; };
 		C12ED1A623F41C1B003076C5 /* loginbg.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = loginbg.mov; sourceTree = "<group>"; };
 		C14C3B7F23E830940079D0FE /* MadelineNEASQL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MadelineNEASQL.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 				C14C3B9023E8309A0079D0FE /* Info.plist */,
 				C1906AAB23F161FB000E90C8 /* Questions */,
 				C1DE30D023EAC9C300AE059E /* Helpers */,
+				7A28094F242D48C80073F0D0 /* ClientResults.swift */,
 			);
 			path = MadelineNEASQL;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				C1DE30C623EAC23F00AE059E /* ViewController.swift in Sources */,
 				C1906AA823F161F1000E90C8 /* QuestionBank.swift in Sources */,
 				C14C3B8523E830940079D0FE /* SceneDelegate.swift in Sources */,
+				7A280950242D48C80073F0D0 /* ClientResults.swift in Sources */,
 				C1DE30C523EAC23F00AE059E /* LoginViewController.swift in Sources */,
 				C1906AAA23F161F1000E90C8 /* QuestionBankDiary.swift in Sources */,
 				C1DE30C223EAC23F00AE059E /* ResultsViewController.swift in Sources */,
