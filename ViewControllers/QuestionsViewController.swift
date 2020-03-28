@@ -56,7 +56,7 @@ class QuestionsViewController: UIViewController {
             findResultsButton.isHidden = false
             var stmt: OpaquePointer?
             
-            let clientInputQueryString = "INSERT INTO clientInput (dietaryRestrictions, cost, rules, medicalCon, support, TimeToPrepare) VALUES (?,?,?,?,?,?)"
+            let clientInputQueryString = "INSERT INTO clientInput (dietaryRestrictions, cost, rules, medicalCon, support, time) VALUES (?,?,?,?,?,?)"
             let clientInputDB = SQLDatabase.shared.getDB()
             if sqlite3_prepare(clientInputDB, clientInputQueryString, -1, &stmt, nil) != SQLITE_OK{
                 let errmsg = String(cString: sqlite3_errmsg(clientInputDB)!)

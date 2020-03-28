@@ -29,6 +29,7 @@ class SignupViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var signinButton: UIButton!
     
     @IBAction func InsertinTableTapped(_ sender: UIButton) {
+
         let firstNameT = firstNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines);
         let lastNameT = lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
         let emailT = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -55,6 +56,13 @@ class SignupViewController: UIViewController, UITableViewDataSource, UITableView
         }
         var stmt: OpaquePointer?
         
+        clientDetailsList.removeAll()
+        
+//        if sqlite3_exec(clientDetailsDB, "DROP TABLE IF EXISTS clientDetails", nil, nil, nil) != SQLITE_OK {
+//            let errmsg = String(cString: sqlite3_errmsg(clientDetailsDB)!)
+//            print("error dropping ClientDetails table: \(errmsg)")
+//        }
+//
         let clientDetailsQueryString = "INSERT INTO clientDetails (firstName, lastName, email, password) VALUES (?,?,?,?)"
         let clientDetailsDB = SQLDatabase.shared.getDB()
         if sqlite3_prepare(clientDetailsDB, clientDetailsQueryString, -1, &stmt, nil) != SQLITE_OK{
@@ -125,7 +133,7 @@ class SignupViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func readValues(){
-        clientDetailsList.removeAll()
+        
         
         let clientDetailsQueryString = "SELECT clientID, firstName, lastName, email, password FROM clientDetails"
         
@@ -152,6 +160,7 @@ class SignupViewController: UIViewController, UITableViewDataSource, UITableView
     
     
     @IBAction func signInTapped(_ sender: Any) {
+
         
         self.transitionToHome()
     
